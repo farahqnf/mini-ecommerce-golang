@@ -10,14 +10,14 @@ import (
 	"github.com/tugasmeilyanto/go-trial-class/helpers"
 )
 
-func ListOrder() {
+func ListOrder(username string) {
 	helpers.ClearScreen()
 	consoleReader := bufio.NewReader(os.Stdin)
 	var orders []entity.Order
 
 	err := config.DB.Preload("Product").Find(&orders).Error
 	if err != nil {
-		ErrorHandler(err.Error())
+		ErrorHandler(err.Error(), username)
 		return
 	}
 
@@ -36,6 +36,6 @@ func ListOrder() {
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		MainMenu()
+		MainMenu(username)
 	}
 }

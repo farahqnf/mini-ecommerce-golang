@@ -21,5 +21,5 @@ func DBConnect() {
 		DB = db
 	}
 
-	db.AutoMigrate(&entity.Product{}, &entity.Order{}, entity.Customer{})
+	db.AutoMigrate(&entity.Product{}, &entity.Order{}, entity.User{})
 }

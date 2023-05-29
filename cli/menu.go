@@ -7,9 +7,9 @@ import (
 	"github.com/tugasmeilyanto/go-trial-class/helpers"
 )
 
-func MainMenu() {
+func MainMenu(username string) {
 	helpers.ClearScreen()
-	fmt.Println("Selamat Datang di Mini Ecommerce")
+	fmt.Println("Selamat Datang di Mini Ecommerce", username, "!")
 	fmt.Println("--------------------------------")
 
 	var input string
@@ -24,13 +24,13 @@ func MainMenu() {
 
 	switch input {
 	case "1":
-		ListProduct()
+		ListProduct(username)
 	case "2":
-		ListOrder()
+		ListOrder(username)
 	case "q":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		MainMenu()
+		MainMenu(username)
 	}
 }

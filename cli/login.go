@@ -13,7 +13,7 @@ import (
 func LoginMenu() {
 	consoleReader := bufio.NewReader(os.Stdin)
 
-	var email, password string
+	var username, password string
 
 	fmt.Println("---Login Menu---")
 	fmt.Println("1. Login")
@@ -25,31 +25,31 @@ func LoginMenu() {
 
 	switch option {
 	case "1":
-		fmt.Print("Enter your email: ")
-		email, _ = consoleReader.ReadString('\n')
-		email = sanitizeInput(email)
+		fmt.Print("Enter your username: ")
+		username, _ = consoleReader.ReadString('\n')
+		username = sanitizeInput(username)
 
 		fmt.Print("Enter your password: ")
 		password, _ = consoleReader.ReadString('\n')
 		password = sanitizeInput(password)
 
-		if login(email, password) {
+		if login(username, password) {
 			// Redirect to the main menu or perform other actions
-			MainMenu()
+			MainMenu(username)
 		} else {
-			fmt.Println("Invalid email or password. Please try again.")
+			fmt.Println("Invalid username or password. Please try again.")
 			LoginMenu()
 		}
 	case "2":
-		fmt.Print("Enter your email: ")
-		email, _ = consoleReader.ReadString('\n')
-		email = sanitizeInput(email)
+		fmt.Print("Enter your username: ")
+		username, _ = consoleReader.ReadString('\n')
+		username = sanitizeInput(username)
 
 		fmt.Print("Enter your password: ")
 		password, _ = consoleReader.ReadString('\n')
 		password = sanitizeInput(password)
 
-		if register(email, password) {
+		if register(username, password) {
 			fmt.Println("Registration successful. You can now login.")
 			LoginMenu()
 		} else {
@@ -62,10 +62,10 @@ func LoginMenu() {
 	}
 }
 
-func login(email, password string) bool {
-	// Query the database to check if the provided email and password match any user
-	var customer entity.Customer
-	err := config.DB.Where("email = ? AND password = ?", email, password).First(&customer).Error
+func login(username, password string) bool {
+	// Query the database to check if the provided username and password match any user
+	var user entity.User
+	err := config.DB.Where("username = ? AND password = ?", username, password).First(&user).Error
 	if err != nil {
 		// Error occurred or no matching user found
 		return false
@@ -75,17 +75,17 @@ func login(email, password string) bool {
 	return true
 }
 
-func register(email, password string) bool {
-	// Create a new Customer object with the given email and password
-	newCustomer := entity.Customer{
-		Email:    email,
+func register(username, password string) bool {
+	// Create a new User object with the given username and password
+	newUser := entity.User{
+		Username: username,
 		Password: password,
 	}
 
-	// Insert the new customer into the database
-	err := config.DB.Create(&newCustomer).Error
+	// Insert the new User into the database
+	err := config.DB.Create(&newUser).Error
 	if err != nil {
-		ErrorHandler(err.Error())
+		ErrorHandler(err.Error(), username)
 		return false
 	}
 

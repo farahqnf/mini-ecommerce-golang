@@ -12,7 +12,7 @@ import (
 	"github.com/tugasmeilyanto/go-trial-class/helpers"
 )
 
-func ListProduct() {
+func ListProduct(username string) {
 	helpers.ClearScreen()
 	consoleReader := bufio.NewReader(os.Stdin)
 
@@ -20,7 +20,7 @@ func ListProduct() {
 	err := config.DB.Find(&products).Error
 
 	if err != nil {
-		ErrorHandler(err.Error())
+		ErrorHandler(err.Error(), username)
 		return
 	}
 
@@ -37,23 +37,23 @@ func ListProduct() {
 	input, err = consoleReader.ReadString('\n')
 	switch input {
 	case "m\n":
-		MainMenu()
+		MainMenu(username)
 	case "q\n":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		OrderProduct(input)
+		OrderProduct(input, username)
 	}
 }
 
-func OrderProduct(id string) {
+func OrderProduct(id string, username string) {
 	helpers.ClearScreen()
 	consoleReader := bufio.NewReader(os.Stdin)
 
 	var product entity.Product
 	err := config.DB.Where("ID = ?", strings.TrimSpace(id)).First(&product).Error
 	if err != nil {
-		ErrorHandler(err.Error())
+		ErrorHandler(err.Error(), username)
 		return
 	}
 
@@ -68,18 +68,18 @@ func OrderProduct(id string) {
 
 	switch strings.TrimSpace(input) {
 	case "y":
-		CreateOrder(product)
+		CreateOrder(product, username)
 	case "m":
-		MainMenu()
+		MainMenu(username)
 	case "q":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		OrderProduct(input)
+		OrderProduct(input, username)
 	}
 }
 
-func CreateOrder(product entity.Product) {
+func CreateOrder(product entity.Product, username string) {
 	helpers.ClearScreen()
 	consoleReader := bufio.NewReader(os.Stdin)
 	var email string
@@ -99,7 +99,7 @@ func CreateOrder(product entity.Product) {
 
 	err := config.DB.Create(&order).Error
 	if err != nil {
-		ErrorHandler(err.Error())
+		ErrorHandler(err.Error(), username)
 		return
 	}
 
@@ -111,13 +111,13 @@ func CreateOrder(product entity.Product) {
 
 	_, err = fmt.Scanln(&input)
 	if err != nil {
-		MainMenu()
+		MainMenu(username)
 	}
 	switch input {
 	case "q\n":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		MainMenu()
+		MainMenu(username)
 	}
 }

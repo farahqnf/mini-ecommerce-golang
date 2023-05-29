@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func ErrorHandler(msg string) {
+func ErrorHandler(msg string, username string) {
 	fmt.Println("terjadi kesalahan dalam aplikasi")
 	fmt.Println(msg)
 
@@ -20,11 +20,11 @@ func ErrorHandler(msg string) {
 
 	switch input {
 	case "m":
-		MainMenu()
+		MainMenu(username)
 	case "q":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:
-		ErrorHandler(msg)
+		ErrorHandler(msg, username)
 	}
 }
