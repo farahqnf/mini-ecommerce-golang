@@ -6,7 +6,7 @@ import (
 )
 
 func ClearScreen() {
-	cmd := exec.Command("cls")
+	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }

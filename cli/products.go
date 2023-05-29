@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/tugasmeilyanto/go-trial-class/config"
@@ -50,7 +51,7 @@ func OrderProduct(id string) {
 	consoleReader := bufio.NewReader(os.Stdin)
 
 	var product entity.Product
-	err = config.DB.Where("ID = ?", ProductId).First(&product).Error
+	err := config.DB.Where("ID = ?", strings.TrimSpace(id)).First(&product).Error
 	if err != nil {
 		ErrorHandler(err.Error())
 		return
@@ -64,14 +65,13 @@ func OrderProduct(id string) {
 	fmt.Println("Tekan (q) untuk keluar dari aplikasi")
 
 	input, _ = consoleReader.ReadString('\n')
-	// input = strings.TrimSpace(input)
 
-	switch input {
-	case "y\n":
+	switch strings.TrimSpace(input) {
+	case "y":
 		CreateOrder(product)
-	case "m\n":
+	case "m":
 		MainMenu()
-	case "q\n":
+	case "q":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
 	default:

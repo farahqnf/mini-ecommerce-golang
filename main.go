@@ -8,5 +8,6 @@ import (
 func main() {
 	// fmt.Println("Hello World")
 	config.DBConnect()
-	cli.MainMenu()
+	// cli.MainMenu()
+	cli.LoginMenu()
 }

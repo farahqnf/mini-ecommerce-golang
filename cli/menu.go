@@ -25,8 +25,8 @@ func MainMenu() {
 	switch input {
 	case "1":
 		ListProduct()
-	// case "2":
-	// 	ListOrder()
+	case "2":
+		ListOrder()
 	case "q":
 		fmt.Println("Terimakasih telah menggunakan aplikasi ini")
 		os.Exit(1)
