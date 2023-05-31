@@ -23,3 +23,14 @@ func DBConnect() {
 
 	db.AutoMigrate(&entity.Product{}, &entity.Order{}, entity.User{})
 }
+
+// func DBConnect() {
+// 	dsn := ""
+// 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+// 	if err != nil {
+// 		log.Fatal("failed to connect to database", err.Error())
+// 	} else {
+// 		fmt.Println("connected to db")
+// 		DB = db
+// 	}
+// }
